@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobminder/modules/application.dart';
 import 'package:jobminder/modules/company.dart';
 import 'package:jobminder/screens/application_details_screen.dart';
+
+import 'blocs/applications_detailes/applications_detailes_bloc.dart';
 
 
 void main() {
@@ -40,8 +43,12 @@ class HomeScreen extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => ApplicationDetailsScreen(application: app),
-                ),
+                  builder: (context) => 
+                  BlocProvider(
+                    create: (context) => ApplicationDetailsBloc(),
+                    child: ApplicationDetailsScreen(application: app),
+                  ),
+              ),
             )
           },
         ),
