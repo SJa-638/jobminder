@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-
+import 'package:jobminder/screens/home_screen.dart';
+import 'package:jobminder/screens/company_screen.dart';
+import 'package:jobminder/screens/questions_screen.dart';
+import 'package:jobminder/screens/login_screen.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -11,14 +14,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Home Screen',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+        primarySwatch: Colors.blue,
       ),
-      home: const Scaffold(
-            body: Text('Flutter Demo Home Page'),
-      ) 
+      home: HomeScreen(),
+      routes: {
+        '/home': (context) => HomeScreen(),
+       // '/interviews': (context) => companyScreen(),
+       // '/questions': (context) => QuestionsScreen(),
+       // '/logout': (context) => LoginScreen(),
+      },
     );
   }
 }
+    
