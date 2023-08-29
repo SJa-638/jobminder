@@ -27,41 +27,54 @@ class _ApplicationDetailsScreenState extends State<ApplicationDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
+      appBar: AppBar( title: Text(widget.application.company.name)),
+      body: Padding(
+        padding: const EdgeInsets.all(25.0),
+        child: Wrap(
+          // crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 20,
+          runSpacing: 20,
           // height: MediaQuery.of(context).size.height * 0.5,
           children: [
-            Text(widget.application.postion),
+            Row(
+              children: [
+                const Text("Position: "),
+                Text(widget.application.postion),
+              ],
+            ),
             BlocBuilder <ApplicationDetailsBloc, ApplicationDetailsState>(
               builder: (context, state){
-                if(state is ApplicationDetailsInitialState || state is ApplicationDetailsErrorAddDataState){
-                  return Column(
-                    children: [
-                      const Text("Something went very wrong :("),
-                      ElevatedButton(
-                        onPressed: () {
-                          bloc.add(AddStateEvent(widget.application, 
-                                ApplicationState(JobStatus.jobForm,
-                                DateTime.now().add(const Duration(days: 15)) ,
-                                DateTime.now())
-                              )
-                            );
-                          }, 
-                          child: const Text("Add state"),
-                      ),
-                    ],
-                  );
+                if(state is ApplicationDetailsErrorAddDataState){
+                  return const Text("Something went very wrong :(");
                 } else {
-                  return Expanded(
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.25,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const Text("States: "),
                         Expanded(
-                          child: ListView.builder(
-                                itemCount: widget.application.appStates.length,
-                                itemBuilder: (context, index){
-                                  return Text(widget.application.appStates[index].jobStatuses.name);
-                                }
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Scrollbar(
+                              child: Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: ListView.builder(
+                                      itemCount: widget.application.appStates.length,
+                                      itemBuilder: (context, index){
+                                        return Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(widget.application.appStates[index].jobStatuses.name),
+                                            Text(' Deadline: ${widget.application.appStates[index].deadline.day.toString()} /${widget.application.appStates[index].deadline.month.toString()} / ${widget.application.appStates[index].deadline.year.toString()}'),
+                                                        
+                                          ],
+                                        );
+                                      }
+                                    ),
                               ),
+                            ),
+                          ),
                         ),
                             ElevatedButton(
                         onPressed: () {
@@ -77,9 +90,27 @@ class _ApplicationDetailsScreenState extends State<ApplicationDetailsScreen> {
                       ],
                     ),
                   );
-
+      
                 }
               }
+            ),
+            Row(
+              children: [
+                const Text("Job Type: "),
+                Text(widget.application.jobType.name),
+              ],
+            ),
+            Row(
+              children: [
+                const Text("Work Modle: "),
+                Text(widget.application.workModle.name),
+              ],
+            ),
+            Row(
+              children: [
+                const Text("notes: "),
+                Text(widget.application.notes?? "No Notes"),
+              ],
             ),
           ],
         ),

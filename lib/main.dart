@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   
-  final Application app = Application('test', WorkModle.remote, JobType.fulltime, Company(name: 'test'));
+  final Application app = Application('test', WorkModle.remote, JobType.fulltime, Company(name: 'Company demo'));
   
   
   @override
