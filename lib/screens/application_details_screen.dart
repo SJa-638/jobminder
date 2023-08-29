@@ -78,12 +78,12 @@ class _ApplicationDetailsScreenState extends State<ApplicationDetailsScreen> {
                         ),
                             ElevatedButton(
                         onPressed: () {
-                          bloc.add(AddStateEvent(widget.application, 
-                                ApplicationState(JobStatus.jobForm,
-                                DateTime.now().add(const Duration(days: 15)) ,
-                                DateTime.now())
-                              )
-                            );
+                          showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                                    return  ApplicationStateForm(application: widget.application, bloc: bloc,);
+                                  },
+                        );
                           }, 
                           child: const Text("Add state"),
                           )
@@ -117,4 +117,83 @@ class _ApplicationDetailsScreenState extends State<ApplicationDetailsScreen> {
       ),
     );
   }
+  
+
 }
+
+class ApplicationStateForm extends StatefulWidget {
+    final Application application;
+    final ApplicationDetailsBloc bloc;
+  
+  const ApplicationStateForm({super.key, required this.application, required this.bloc});
+
+
+  @override
+  State<ApplicationStateForm> createState() => _ApplicationStateFormState();
+}
+
+class _ApplicationStateFormState extends State<ApplicationStateForm> {
+
+  late DateTime dueDate = DateTime.now();
+  late JobStatus newStateStatus = JobStatus.jobForm;
+  @override
+  Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+
+    return Form(
+          key: formKey,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                DropdownButton<JobStatus>(
+                  value: newStateStatus,
+                  onChanged: (value) {
+                    setState(() {
+                      newStateStatus = value!;
+                    });
+                  },
+                  items: JobStatus.values.map((JobStatus classType) {
+                    return DropdownMenuItem<JobStatus>(
+                      value: classType,
+                      child: Text(classType.name));
+                  }).toList()
+                ),
+                ElevatedButton(
+                  onPressed: _selectDate,
+                  child: Text('Due Date: ${_formatDate(dueDate)}'),
+                ),
+                ElevatedButton(
+                  child: const Icon(Icons.add),
+                  onPressed: () {
+                    ApplicationState newState = ApplicationState(newStateStatus, dueDate, DateTime.now());
+                    widget.bloc.add(AddStateEvent(widget.application, newState));
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+  }
+  String _formatDate(DateTime date) {
+    return '${date.day}/${date.month}/${date.year}';
+  }
+
+  Future<void> _selectDate() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: dueDate,
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+
+    if (pickedDate != null && pickedDate != dueDate) {
+      setState(() {
+        dueDate = pickedDate;
+      });
+    }
+  }
+}
+
+
