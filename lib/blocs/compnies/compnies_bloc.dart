@@ -22,6 +22,7 @@ class CompaniesBloc extends Bloc<CompaniesEvent,CompaniesState>{
       ));
     } else {
       event.companies.add(event.newComp);
+      
       emitter(CompaniesSuccessAddState(event.companies));
     }
   }

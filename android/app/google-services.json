@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "356349698775",
+    "project_id": "jobminder-fea6f",
+    "storage_bucket": "jobminder-fea6f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:356349698775:android:06a22cd591a95d59818692",
+        "android_client_info": {
+          "package_name": "com.example.jobminder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "356349698775-0hbt6k7on48l8a02eck960lnm37ipqee.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbjaiKpxbKFPPDmxc4TcnJUj-AJ6bNmCE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "356349698775-0hbt6k7on48l8a02eck960lnm37ipqee.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
