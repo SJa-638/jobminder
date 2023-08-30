@@ -27,7 +27,27 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Companies")),
+      appBar: AppBar(
+        title: const Text("Companies"),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (BuildContext context) {
+                  return CompaniesForm(
+                    companies: widget.companies,
+                  );
+                },
+              );
+            },
+          )
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: ListView.builder(
@@ -53,6 +73,49 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
                 ),
               );
             }),
+      ),
+    );
+  }
+}
+
+class CompaniesForm extends StatefulWidget {
+  final List<Company> companies;
+
+  const CompaniesForm({
+    super.key,
+    required this.companies,
+  });
+
+  @override
+  State<CompaniesForm> createState() => _CompaniesFormState();
+}
+
+class _CompaniesFormState extends State<CompaniesForm> {
+  late String name;
+
+  @override
+  Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+
+    return Form(
+      key: formKey,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            TextFormField(
+                decoration: const InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Company',
+            )),
+            ElevatedButton(
+              child: const Icon(Icons.add),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
