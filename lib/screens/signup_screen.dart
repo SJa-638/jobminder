@@ -121,10 +121,11 @@ class _SignUpPageState extends State<SignUpPage> {
   void _signUp() async {
     String email = _emailController.text;
     String password = _passwordController.text;
+    String userName = _usernameController.text;
 
     final FirebaseService auth = locator.get<FirebaseService>();
 
-    auth.signUpWithEmailAndPassword(email, password);
+    auth.signUpWithEmailAndPassword(email, password, userName);
 
     if (auth.isSignedIn()) {
       // print("User is successfully created");

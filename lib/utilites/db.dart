@@ -13,10 +13,10 @@ class FirebaseService {
   bool isSignedIn() {
     return _user != null;
   }
+
   // ignore: non_constant_identifier_names
   void addCompany(CompanyName) {
     if (!isSignedIn()) {
-      
       print("no user");
       return;
     }
@@ -24,11 +24,22 @@ class FirebaseService {
     ref.push().set(CompanyName);
   }
 
-  void signUpWithEmailAndPassword(String email, String password) async {
+  void _addUserName(uname) {
+    if (!isSignedIn()) {
+      print("no user");
+      return;
+    }
+    final ref = _database.ref().child('${_user?.uid}/UserName/');
+    ref.set(uname);
+  }
+
+  void signUpWithEmailAndPassword(
+      String email, String password, String userName) async {
     try {
       UserCredential credential = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
       _user = credential.user;
+      _addUserName(userName);
     } catch (e) {
       print("Some error occured");
     }
