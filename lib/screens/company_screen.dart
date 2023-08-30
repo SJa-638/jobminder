@@ -41,7 +41,7 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
             ),
             onPressed: () {
               showModalBottomSheet(
-                isScrollControlled : true,
+                isScrollControlled: true,
                 context: context,
                 builder: (BuildContext context) {
                   return CompaniesForm(
@@ -67,6 +67,16 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
                     return GestureDetector(
                       onTap: () {
                         // print(widget.companies[index].name);
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //       builder: (context) =>
+                        //       BlocProvider(
+                        //         create: (context) => ApplicationDetailsBloc(),
+                        //         child: ApplicationDetailsScreen(application: app),
+                        //       ),
+                        //   ),
+                        // )
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
@@ -113,7 +123,6 @@ class _CompaniesFormState extends State<CompaniesForm> {
   TextEditingController name = TextEditingController();
   @override
   Widget build(BuildContext context) {
-
     return Form(
       child: Padding(
         padding: const EdgeInsets.all(5.0),

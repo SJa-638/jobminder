@@ -1,4 +1,5 @@
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobminder/blocs/compnies/compnies_events.dart';
 import 'package:jobminder/blocs/compnies/compnies_states.dart';
@@ -22,7 +23,9 @@ class CompaniesBloc extends Bloc<CompaniesEvent,CompaniesState>{
       ));
     } else {
       event.companies.add(event.newComp);
-      
+      DatabaseReference ref = FirebaseDatabase.instance.ref("users/123/companies");
+      await ref.push().set(event.newComp.name);
+
       emitter(CompaniesSuccessAddState(event.companies));
     }
   }
