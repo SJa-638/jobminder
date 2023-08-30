@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobminder/blocs/compnies/compnies_bloc.dart';
 import 'package:jobminder/blocs/compnies/compnies_events.dart';
 import 'package:jobminder/blocs/compnies/compnies_states.dart';
+import 'package:jobminder/screens/drawer_widget.dart';
 
 import '../modules/company.dart';
 
@@ -52,6 +53,7 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
           )
         ],
       ),
+      drawer: const DrawerWidget(),
       body: Padding(
           padding: const EdgeInsets.all(25.0),
           child: BlocBuilder<CompaniesBloc, CompaniesState>(
@@ -63,7 +65,7 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
-                        print(widget.companies[index].name);
+                        // print(widget.companies[index].name);
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
