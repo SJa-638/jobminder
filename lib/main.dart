@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+
+import 'package:jobminder/screens/home_screen.dart';
+import 'package:jobminder/screens/company_screen.dart';
+import 'package:jobminder/screens/questions_screen.dart';
+import 'package:jobminder/screens/login_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobminder/blocs/compnies/compnies_bloc.dart';
 import 'package:jobminder/modules/application.dart';
 import 'package:jobminder/modules/company.dart';
 import 'package:jobminder/screens/application_details_screen.dart';
 import 'package:jobminder/screens/company_screen.dart';
-
 import 'blocs/applications_detailes/applications_detailes_bloc.dart';
-
 
 void main() {
   runApp(
@@ -22,6 +25,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Home Screen',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
       routes: {
       '/': (context) => HomeScreen(),
     },
