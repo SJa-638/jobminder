@@ -31,13 +31,20 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 210, 173, 255),
       appBar: AppBar(
-        title: const Text("Companies"),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text("Companies",
+        style: TextStyle(
+          color:  Colors.white,
+          ),
+          ),
         actions: <Widget>[
           IconButton(
             icon: const Icon(
               Icons.add,
-              color: Colors.white,
+              color:Color.fromARGB(255, 202, 28, 255),
             ),
             onPressed: () {
               showModalBottomSheet(
@@ -129,7 +136,8 @@ class _CompaniesFormState extends State<CompaniesForm> {
             onChanged: (value) => name = value,
             ),
             ElevatedButton(
-              child: const Icon(Icons.add),
+              child: const Icon(Icons.add,),
+              style: ElevatedButton.styleFrom(primary: Color.fromARGB(255, 202, 159, 255)),
               onPressed: () {
                 if (name != "") {
                   widget.bloc.add(
@@ -137,6 +145,7 @@ class _CompaniesFormState extends State<CompaniesForm> {
                 }
                 Navigator.pop(context);
               },
+              
             ),
           ],
         ),
