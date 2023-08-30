@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jobminder/blocs/compnies/compnies_bloc.dart';
+import 'package:jobminder/blocs/compnies/compnies_events.dart';
+import 'package:jobminder/blocs/compnies/compnies_states.dart';
 
 import '../modules/company.dart';
 
@@ -16,12 +19,12 @@ class CompaniesScreen extends StatefulWidget {
 }
 
 class _CompaniesScreenState extends State<CompaniesScreen> {
-  // late ApplicationDetailsBloc bloc;
+  late CompaniesBloc bloc;
 
   @override
   void initState() {
     super.initState();
-    // bloc = context.read<ApplicationDetailsBloc>();
+    bloc = context.read<CompaniesBloc>();
   }
 
   @override
@@ -41,6 +44,7 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
                 builder: (BuildContext context) {
                   return CompaniesForm(
                     companies: widget.companies,
+                    bloc: bloc,
                   );
                 },
               );
@@ -49,41 +53,52 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: ListView.builder(
-            itemCount: widget.companies.length,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                onTap: () {
-                  print(widget.companies[index].name);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Card(
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(widget.companies[index].name),
+          padding: const EdgeInsets.all(25.0),
+          child: BlocBuilder<CompaniesBloc, CompaniesState>(
+              builder: (context, state) {
+            if (state is CompaniesInitialState ||
+                state is CompaniesSuccessAddState) {
+              return ListView.builder(
+                  itemCount: widget.companies.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        print(widget.companies[index].name);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        child: Card(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(widget.companies[index].name),
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            }),
-      ),
+                      ),
+                    );
+                  });
+            } else if (state is CompaniesErrorAddState) {
+              return Text(state.errorMessage);
+            } else {
+              return const Text("Something went very wrong :(");
+            }
+          })),
     );
   }
 }
 
 class CompaniesForm extends StatefulWidget {
   final List<Company> companies;
+  final CompaniesBloc bloc;
 
   const CompaniesForm({
     super.key,
     required this.companies,
+    required this.bloc,
   });
 
   @override
@@ -91,7 +106,7 @@ class CompaniesForm extends StatefulWidget {
 }
 
 class _CompaniesFormState extends State<CompaniesForm> {
-  late String name;
+  late String name = "";
 
   @override
   Widget build(BuildContext context) {
@@ -103,14 +118,21 @@ class _CompaniesFormState extends State<CompaniesForm> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            TextFormField(
+            TextField(
+              
                 decoration: const InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'Company',
-            )),
+            ),
+            onChanged: (value) => name = value,
+            ),
             ElevatedButton(
               child: const Icon(Icons.add),
               onPressed: () {
+                if (name != "") {
+                  widget.bloc.add(
+                      AddcompanyEvent(Company(name: name), widget.companies));
+                }
                 Navigator.pop(context);
               },
             ),

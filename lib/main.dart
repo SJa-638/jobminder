@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:jobminder/blocs/compnies/compnies_bloc.dart';
 import 'package:jobminder/modules/application.dart';
 import 'package:jobminder/modules/company.dart';
 import 'package:jobminder/screens/application_details_screen.dart';
@@ -34,23 +35,7 @@ class HomeScreen extends StatelessWidget {
   final List<Company> companies = [
     Company(name: 'Company 1'),
     Company(name: 'Company 2'),
-    Company(name: 'Company 3'),
-    Company(name: 'Company 4'),
-    Company(name: 'Company 5'),
-    Company(name: 'Company 6'),
-    Company(name: 'Company 7'),
-    Company(name: 'Company 8'),
-    Company(name: 'Company 9'),
-    Company(name: 'Company 10'),
-    Company(name: 'Company 11'),
-    Company(name: 'Company 12'),
-    Company(name: 'Company 13'),
-    Company(name: 'Company 14'),
-    Company(name: 'Company 15'),
-    Company(name: 'Company 16'),
-    Company(name: 'Company 17'),
-    Company(name: 'Company 18'),
-    Company(name: 'Company 19')];
+    Company(name: 'Company 3'),];
 
   final Application app = Application('test', WorkModle.remote, JobType.fulltime, Company(name: 'Company demo'));
   
@@ -84,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                   MaterialPageRoute(
                       builder: (context) => 
                       BlocProvider(
-                        create: (context) => ApplicationDetailsBloc(),
+                        create: (context) => CompaniesBloc(),
                         child: CompaniesScreen(companies: companies),
                       ),
                   ),
