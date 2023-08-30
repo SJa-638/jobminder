@@ -138,10 +138,8 @@ class _ApplicationStateFormState extends State<ApplicationStateForm> {
   late JobStatus newStateStatus = JobStatus.jobForm;
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
 
     return Form(
-          key: formKey,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(

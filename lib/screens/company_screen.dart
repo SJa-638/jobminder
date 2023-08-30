@@ -108,32 +108,30 @@ class CompaniesForm extends StatefulWidget {
 }
 
 class _CompaniesFormState extends State<CompaniesForm> {
-  late String name = "";
-
+  // late String name = "";
+  TextEditingController name = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
 
     return Form(
-      key: formKey,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             TextField(
-              
-                decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Company',
-            ),
-            onChanged: (value) => name = value,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Company',
+              ),
+              controller: name,
+              // onChanged: (value) => name = value,
             ),
             ElevatedButton(
               child: const Icon(Icons.add),
               onPressed: () {
-                if (name != "") {
-                  widget.bloc.add(
-                      AddcompanyEvent(Company(name: name), widget.companies));
+                if (name.text != "") {
+                  widget.bloc.add(AddcompanyEvent(
+                      Company(name: name.text), widget.companies));
                 }
                 Navigator.pop(context);
               },
