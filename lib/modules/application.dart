@@ -8,7 +8,8 @@ class Application{
   final WorkModle workModle;
   final JobType jobType;
   final Company company;
-  late String notes;
+  // ignore: avoid_init_to_null
+  late String? notes = null;
 
   Application(this.postion, this.workModle, this.jobType, this.company);
   
