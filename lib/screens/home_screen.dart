@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-
+import 'package:jobminder/screens/drawer_widget.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:const Color(0xFF9AE2FF),
       appBar: AppBar(
-        backgroundColor: Color(0xFF06B4F4),
+         backgroundColor: Colors.transparent,
+        elevation: 0,
         title:const Text('Dashboard',
         style:TextStyle(
                   fontFamily: 'Outfit',
@@ -15,68 +16,7 @@ class HomeScreen extends StatelessWidget {
                 ),
       ),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              child: Column(
-               children: [
-                 const Text(
-               'Menu',
-               style: TextStyle(
-               color: Colors.white,
-               fontSize: 20.0,
-                ),
-                ),
-              const SizedBox(height: 10.0),
-              Image.asset(
-              'assets/images/logo.jpeg',  // Replace with your logo image path
-                height: 80.0,
-                width: 80.0,
-                
-                 ),
-               // Add some spacing between the image and text
-             
-                
-                 ],
-                 ),
-              decoration: const BoxDecoration(
-                color: const Color(0xFF06B4F4),
-              ),
-            ),
-            ListTile(
-              leading:const Icon(Icons.home),
-              title:const Text('Home'),
-              onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-          ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.assignment),
-              title:const Text('Interviews'),
-              onTap: () {
-                // Handle Interviews onTap functionality
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.question_answer),
-              title: const Text('Questions'),
-              onTap: () {
-                // Handle Questions onTap functionality
-              },
-            ),
-            ListTile(
-              leading:const Icon(Icons.exit_to_app),
-              title: const Text('Logout'),
-              onTap: () {
-                // Handle Logout onTap functionality
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: DrawerWidget(),
       body:  Column(
             mainAxisSize: MainAxisSize.max,
             children: [
@@ -85,7 +25,7 @@ class HomeScreen extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
                   child: Icon(
-                    Icons.person_2_rounded,
+                    Icons.person_rounded,
                     color:Colors.grey,
                     size: 80,
                   ),
