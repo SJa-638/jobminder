@@ -6,6 +6,8 @@ import 'package:jobminder/blocs/compnies/compnies_bloc.dart';
 import 'package:jobminder/blocs/compnies/compnies_events.dart';
 import 'package:jobminder/blocs/questions/questions_bloc.dart';
 import 'package:jobminder/blocs/questions/questions_events.dart';
+import 'package:jobminder/modules/application.dart';
+import 'package:jobminder/modules/application_state.dart';
 import 'package:jobminder/modules/company.dart';
 import 'package:jobminder/modules/question.dart';
 
@@ -17,6 +19,45 @@ class FirebaseService {
 
   bool isSignedIn() {
     return _user != null;
+  }
+
+  void addApplication(Application app) {
+    if (!isSignedIn()) {
+      print("no user");
+      return;
+    }
+    final ref = _database.ref().child('${_user?.uid}/Applications/${app.company.name}');
+    ref.push().set({
+      "ID": app.id,
+      "postion": app.postion,
+      "workModle": app.workModle,
+      "jobType": app.jobType,
+    });
+  }
+
+  void addApplicationState(ApplicationState appState,String appId) {
+    if (!isSignedIn()) {
+      print("no user");
+      return;
+    }
+    final ref = _database.ref().child('${_user?.uid}/States/$appId');
+    ref.push().set({
+      "state": appState
+    });
+  }
+
+  void listenToApplications(CompaniesBloc bloc) {
+    _database.ref().child('${_user?.uid}/Companies/').get().then((snapshot) {
+      if (snapshot.value == null) {
+        return;
+      }
+      List<Company> companies = [];
+      final comps = Map<String, Object>.from(snapshot.value as dynamic);
+      comps.forEach((key, value) {
+        Company c = Company(name: value as String);
+        bloc.add(AddcompanyEvent(c, companies));
+      });
+    });
   }
 
   // ignore: non_constant_identifier_names
