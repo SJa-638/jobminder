@@ -115,8 +115,10 @@ class _LoginPageState extends State<LoginPage> {
     FirebaseService auth = locator.get<FirebaseService>();
 
     auth.signInWithEmailAndPassword(email, password);
-
+    await Future.delayed(const Duration(seconds: 2));
+    
     if (auth.isSignedIn()) {
+      // ignore: use_build_context_synchronously
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const HomeScreen()));
     } else {

@@ -126,9 +126,11 @@ class _SignUpPageState extends State<SignUpPage> {
     final FirebaseService auth = locator.get<FirebaseService>();
 
     auth.signUpWithEmailAndPassword(email, password, userName);
+    await Future.delayed(const Duration(seconds: 2));
 
     if (auth.isSignedIn()) {
       // print("User is successfully created");
+      // ignore: use_build_context_synchronously
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const HomeScreen()));
     } else {

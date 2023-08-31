@@ -2,13 +2,15 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:jobminder/blocs/questions/questions_bloc.dart';
+import 'package:jobminder/blocs/questions/questions_events.dart';
+import 'package:jobminder/modules/question.dart';
 
 class FirebaseService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirebaseDatabase _database = FirebaseDatabase.instance;
   // ignore: avoid_init_to_null
   late User? _user = null;
-  FirebaseService();
 
   bool isSignedIn() {
     return _user != null;
@@ -22,6 +24,32 @@ class FirebaseService {
     }
     final ref = _database.ref().child('${_user?.uid}/Companies/');
     ref.push().set(CompanyName);
+  }
+
+  void addQuestion(Question q) {
+    if (!isSignedIn()) {
+      print("no user");
+      return;
+    }
+    final ref = _database.ref().child('${_user?.uid}/Questions/');
+    ref.push().set({
+      "Question": q.question,
+      "Answer": q.answer
+    });
+  }
+
+  void listenToQuestions(QuestionsBloc bloc) {
+    _database.ref().child('${_user?.uid}/Questions/').onValue.listen((event) {
+      if(event.snapshot.value == null){
+        return;
+      }
+      List<Question> questions = [];
+      final qs = Map<String, Object>.from( event.snapshot.value as dynamic);
+      qs.forEach((key, value) {
+        Question q = Question.fromJson(Map<String, Object>.from(value as dynamic));
+        bloc.add(AddQuestionEvent(q, questions));        
+      });
+    });
   }
 
   void _addUserName(uname) {
@@ -53,5 +81,10 @@ class FirebaseService {
     } catch (e) {
       print("Some error occured");
     }
+  }
+
+  void signOut() {
+    _firebaseAuth.signOut();
+    _user = null;
   }
 }

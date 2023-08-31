@@ -26,6 +26,7 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
   void initState() {
     super.initState();
     bloc = context.read<CompaniesBloc>();
+    
   }
 
   @override

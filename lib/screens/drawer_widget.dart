@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobminder/blocs/compnies/compnies_bloc.dart';
+import 'package:jobminder/blocs/questions/questions_bloc.dart';
+import 'package:jobminder/main.dart';
 import 'package:jobminder/modules/company.dart';
 import 'package:jobminder/screens/company_screen.dart';
 import 'package:jobminder/screens/home_screen.dart';
+import 'package:jobminder/screens/login_screen.dart';
+import 'package:jobminder/screens/questions_screen.dart';
+import 'package:jobminder/utilites/db.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({super.key});
@@ -63,14 +68,28 @@ class DrawerWidget extends StatelessWidget {
             leading: const Icon(Icons.question_answer),
             title: const Text('Questions'),
             onTap: () {
-              // Handle Questions onTap functionality
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => 
+                      BlocProvider(
+                        create: (context) => QuestionsBloc(),
+                        child: const QuestionsScreen(),
+                      ),
+                  ),
+                );
             },
           ),
           ListTile(
             leading: const Icon(Icons.exit_to_app),
             title: const Text('Logout'),
             onTap: () {
-              // Handle Logout onTap functionality
+              locator.get<FirebaseService>().signOut();
+              Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginPage()),
+                            (route) => false);
             },
           ),
         ],
