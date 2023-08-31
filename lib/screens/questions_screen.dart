@@ -1,3 +1,4 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobminder/blocs/questions/questions_bloc.dart';
@@ -52,54 +53,39 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
         ],
       ),
       drawer: const DrawerWidget(),
-      body: Padding(
-          padding: const EdgeInsets.all(25.0),
-          child: BlocBuilder<QuestionsBloc, QuestionsState>(
-              builder: (context, state) {
-            if (state is QuestionsInitialState ||
-                state is QuestionsSuccessAddState) {
-              locator.get<FirebaseService>().listenToQuestions(bloc);
+      body: Scrollbar(
+        child: Padding(
+            padding: const EdgeInsets.all(25.0),
+            child: BlocBuilder<QuestionsBloc, QuestionsState>(
+                builder: (context, state) {
+              if (state is QuestionsInitialState ||
+                  state is QuestionsSuccessAddState) {
+                locator.get<FirebaseService>().listenToQuestions(bloc);
 
-              return ListView.builder(
-                  itemCount: state.props.length,
-                  itemBuilder: (context, index) {
-                    var q = state.props[index] as Question;
-                    return GestureDetector(
-                      onTap: () {
-                        // print(widget.Questions[index].name);
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) =>
-                        //       BlocProvider(
-                        //         create: (context) => ApplicationDetailsBloc(),
-                        //         child: ApplicationDetailsScreen(application: app),
-                        //       ),
-                        //   ),
-                        // )
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(5.0),
-                        child: Card(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(q.question),
-                              ),
-                            ],
-                          ),
+                return ListView.builder(
+                    itemCount: state.props.length,
+                    itemBuilder: (context, index) {
+                      var q = state.props[index] as Question;
+                      return ExpandablePanel(
+                        header: Text(q.question),
+                        expanded: Column(
+                          children: [
+                            Text(q.answer),
+                            const SizedBox(
+                              height: 25,
+                            )
+                          ],
                         ),
-                      ),
-                    );
-                  });
-            } else if (state is QuestionsErrorAddState) {
-              return Text(state.errorMessage);
-            } else {
-              return const Text("Something went very wrong :(");
-            }
-          })),
+                        collapsed: const Text(""),
+                      );
+                    });
+              } else if (state is QuestionsErrorAddState) {
+                return Text(state.errorMessage);
+              } else {
+                return const Text("Something went very wrong :(");
+              }
+            })),
+      ),
     );
   }
 }
