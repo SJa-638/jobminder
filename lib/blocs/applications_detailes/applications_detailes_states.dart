@@ -2,11 +2,14 @@ import 'package:equatable/equatable.dart';
 import 'package:jobminder/modules/application.dart';
 
 abstract class ApplicationDetailsState extends Equatable {
-  const ApplicationDetailsState();
+  final Application app;
+  const ApplicationDetailsState(this.app);
+   Application get getApp => app;
+
 }
 
 class ApplicationDetailsInitialState extends ApplicationDetailsState {
-  const ApplicationDetailsInitialState();
+  const ApplicationDetailsInitialState(super.app);
 
   @override
   List<Object?> get props => [];
@@ -14,7 +17,7 @@ class ApplicationDetailsInitialState extends ApplicationDetailsState {
 
 class ApplicationDetailsErrorAddDataState extends ApplicationDetailsState {
   final String errorMessage;
-  const ApplicationDetailsErrorAddDataState({
+  const ApplicationDetailsErrorAddDataState(super.app, {
     required this.errorMessage,
   });
 
@@ -23,11 +26,10 @@ class ApplicationDetailsErrorAddDataState extends ApplicationDetailsState {
 }
 
 class ApplicationDetailsSuccessAddDataState extends ApplicationDetailsState {
-  final Application app;
-  const ApplicationDetailsSuccessAddDataState({
-    required this.app,
-  });
+  
+  const ApplicationDetailsSuccessAddDataState(super.app);
 
   @override
   List<Object?> get props => [];
+
 }

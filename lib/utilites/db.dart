@@ -2,8 +2,11 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:intl/intl.dart';
 import 'package:jobminder/blocs/applications/applications_bloc.dart';
 import 'package:jobminder/blocs/applications/applications_events.dart';
+import 'package:jobminder/blocs/applications_detailes/applications_detailes_bloc.dart';
+import 'package:jobminder/blocs/applications_detailes/applications_detailes_events.dart';
 import 'package:jobminder/blocs/compnies/compnies_bloc.dart';
 import 'package:jobminder/blocs/compnies/compnies_events.dart';
 import 'package:jobminder/blocs/questions/questions_bloc.dart';
@@ -60,10 +63,27 @@ class FirebaseService {
     }
     final ref = _database.ref().child('${_user?.uid}/States/$appId');
     ref.push().set({
-      "state": appState
+      "state": appState.jobStatuses.name,
+      "deadline": _formatDate(appState.deadline),
+      "update": _formatDate(appState.update)
     });
   }
 
+  void listenToApplicationStates(ApplicationDetailsBloc bloc, Application app) {
+    _database.ref().child('${_user?.uid}/States/${app.id}').get().then((snapshot) {
+      if (snapshot.value == null) {
+        return;
+      }
+      final apps = Map<String, Object>.from(snapshot.value as dynamic);
+
+      apps.forEach((key, value) {
+        // print(value);
+        ApplicationState appState = ApplicationState.fromJson(Map<String, Object>.from(value as dynamic));
+        app.appStates.clear();
+        bloc.add(AddStateEvent(app, appState));
+      });
+    });
+  }
   
 
   // ignore: non_constant_identifier_names
@@ -149,4 +169,11 @@ class FirebaseService {
     _firebaseAuth.signOut();
     _user = null;
   }
+
+  void listenToApplicationDetails(ApplicationDetailsBloc bloc) {}
 }
+
+
+String _formatDate(DateTime date) {
+    return '${NumberFormat('00').format(date.year)}-${NumberFormat('00').format(date.month)}-${NumberFormat('00').format(date.day)}';
+  }

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobminder/blocs/applications/applications_bloc.dart';
 import 'package:jobminder/blocs/applications/applications_states.dart';
+import 'package:jobminder/blocs/applications_detailes/applications_detailes_bloc.dart';
 import 'package:jobminder/blocs/compnies/compnies_bloc.dart';
 import 'package:jobminder/main.dart';
 import 'package:jobminder/modules/application.dart';
 import 'package:jobminder/modules/company.dart';
+import 'package:jobminder/screens/application_details_screen.dart';
 import 'package:jobminder/screens/company_screen.dart';
 import 'package:jobminder/utilites/db.dart';
 
@@ -81,16 +83,16 @@ class _ApplicationsScreenState extends State<ApplicationsScreen> {
                   return GestureDetector(
                     onTap: () {
                       // print(widget.companies[index].name);
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //       builder: (context) =>
-                      //       BlocProvider(
-                      //         create: (context) => ApplicationsBloc(),
-                      //         child: ApplicationsScreen(company: c),
-                      //       ),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                            BlocProvider(
+                              create: (context) => ApplicationDetailsBloc(app),
+                              child: const ApplicationDetailsScreen(),
+                            ),
+                        ),
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(5.0),
