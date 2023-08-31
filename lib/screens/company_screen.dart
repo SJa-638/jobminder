@@ -34,6 +34,7 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Companies"),
+        
         actions: <Widget>[
           IconButton(
             icon: const Icon(
@@ -51,7 +52,7 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
                 },
               );
             },
-          )
+          ),
         ],
       ),
       drawer: const DrawerWidget(),

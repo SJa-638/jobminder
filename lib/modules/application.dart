@@ -14,12 +14,12 @@ class Application{
 
   Application(this.postion, this.workModle, this.jobType, this.company, this.id);
 
-  factory Application.fromJson(Map<String, Object> json) {
+  factory Application.fromJson(Map<String, Object> json, Company comp) {
     return Application(
       json['postion'] as String,
-      WorkModle.values[json['workModle'] as int],
-      JobType.values[json['jobType'] as int],
-      Company.fromJson(Map<String, Object>.from(json['company'] as Map<String, Object>)),
+      WorkModle.values.firstWhere((e) => e.name == (json['workModle'] as String)) ,
+      JobType.values.firstWhere((e) => e.name == (json['jobType'] as String)) ,
+      comp,
       json['ID'] as String,
 
     );

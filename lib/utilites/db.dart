@@ -2,6 +2,8 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:jobminder/blocs/applications/applications_bloc.dart';
+import 'package:jobminder/blocs/applications/applications_events.dart';
 import 'package:jobminder/blocs/compnies/compnies_bloc.dart';
 import 'package:jobminder/blocs/compnies/compnies_events.dart';
 import 'package:jobminder/blocs/questions/questions_bloc.dart';
@@ -30,8 +32,24 @@ class FirebaseService {
     ref.push().set({
       "ID": app.id,
       "postion": app.postion,
-      "workModle": app.workModle,
-      "jobType": app.jobType,
+      "workModle": app.workModle.name,
+      "jobType": app.jobType.name,
+    });
+  }
+
+  void listenToApplications(ApplicationsBloc bloc, Company comp) {
+    _database.ref().child('${_user?.uid}/Applications/${comp.name}').get().then((snapshot) {
+      if (snapshot.value == null) {
+        return;
+      }
+      List<Application> applications = [];
+      final apps = Map<String, Object>.from(snapshot.value as dynamic);
+      apps.forEach((key, value) {
+        // final tmp = value as Map<String, dynamic>;
+        // print(value);
+        Application app = Application.fromJson(Map<String, Object>.from(value as dynamic), comp);
+        bloc.add(AddApplicationEvent(app, applications));
+      });
     });
   }
 
@@ -46,19 +64,7 @@ class FirebaseService {
     });
   }
 
-  void listenToApplications(CompaniesBloc bloc) {
-    _database.ref().child('${_user?.uid}/Companies/').get().then((snapshot) {
-      if (snapshot.value == null) {
-        return;
-      }
-      List<Company> companies = [];
-      final comps = Map<String, Object>.from(snapshot.value as dynamic);
-      comps.forEach((key, value) {
-        Company c = Company(name: value as String);
-        bloc.add(AddcompanyEvent(c, companies));
-      });
-    });
-  }
+  
 
   // ignore: non_constant_identifier_names
   void addCompany(CompanyName) {
