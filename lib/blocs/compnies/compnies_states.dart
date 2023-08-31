@@ -27,5 +27,5 @@ class CompaniesSuccessAddState extends CompaniesState {
   const CompaniesSuccessAddState(this.companies);
 
   @override
-  List<Object?> get props => [];
+  List<Company> get props => companies;
 }

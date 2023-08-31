@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobminder/blocs/compnies/compnies_bloc.dart';
 import 'package:jobminder/blocs/questions/questions_bloc.dart';
 import 'package:jobminder/main.dart';
-import 'package:jobminder/modules/company.dart';
 import 'package:jobminder/screens/company_screen.dart';
 import 'package:jobminder/screens/home_screen.dart';
 import 'package:jobminder/screens/login_screen.dart';
@@ -51,14 +50,13 @@ class DrawerWidget extends StatelessWidget {
             leading: const Icon(Icons.assignment),
             title: const Text('Interviews'),
             onTap: () {
-              List<Company> comps = [];
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => 
                       BlocProvider(
                         create: (context) => CompaniesBloc(),
-                        child: CompaniesScreen(companies: comps),
+                        child: const CompaniesScreen(),
                       ),
                   ),
                 );

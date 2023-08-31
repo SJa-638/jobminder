@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobminder/blocs/compnies/compnies_bloc.dart';
-import 'package:jobminder/blocs/compnies/compnies_events.dart';
 import 'package:jobminder/blocs/compnies/compnies_states.dart';
+import 'package:jobminder/main.dart';
 import 'package:jobminder/screens/drawer_widget.dart';
+import 'package:jobminder/utilites/db.dart';
 
 import '../modules/company.dart';
 
 class CompaniesScreen extends StatefulWidget {
-  final List<Company> companies;
-
   const CompaniesScreen({
     super.key,
-    required this.companies,
   });
 
   @override
@@ -26,7 +24,7 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
   void initState() {
     super.initState();
     bloc = context.read<CompaniesBloc>();
-    
+    locator.get<FirebaseService>().listenToCompanies(bloc);
   }
 
   @override
@@ -46,7 +44,6 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
                 context: context,
                 builder: (BuildContext context) {
                   return CompaniesForm(
-                    companies: widget.companies,
                     bloc: bloc,
                   );
                 },
@@ -62,9 +59,12 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
               builder: (context, state) {
             if (state is CompaniesInitialState ||
                 state is CompaniesSuccessAddState) {
+              locator.get<FirebaseService>().listenToCompanies(bloc);
+
               return ListView.builder(
-                  itemCount: widget.companies.length,
+                  itemCount: state.props.length,
                   itemBuilder: (context, index) {
+                    Company c = state.props[index] as Company;
                     return GestureDetector(
                       onTap: () {
                         // print(widget.companies[index].name);
@@ -87,7 +87,7 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(widget.companies[index].name),
+                                child: Text(c.name),
                               ),
                             ],
                           ),
@@ -106,12 +106,10 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
 }
 
 class CompaniesForm extends StatefulWidget {
-  final List<Company> companies;
   final CompaniesBloc bloc;
 
   const CompaniesForm({
     super.key,
-    required this.companies,
     required this.bloc,
   });
 
@@ -146,8 +144,7 @@ class _CompaniesFormState extends State<CompaniesForm> {
                 child: const Icon(Icons.add),
                 onPressed: () {
                   if (name.text != "") {
-                    widget.bloc.add(AddcompanyEvent(
-                        Company(name: name.text), widget.companies));
+                    locator.get<FirebaseService>().addCompany(name.text);
                   }
                   Navigator.pop(context);
                 },

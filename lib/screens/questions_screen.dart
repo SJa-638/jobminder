@@ -58,6 +58,8 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
               builder: (context, state) {
             if (state is QuestionsInitialState ||
                 state is QuestionsSuccessAddState) {
+              locator.get<FirebaseService>().listenToQuestions(bloc);
+
               return ListView.builder(
                   itemCount: state.props.length,
                   itemBuilder: (context, index) {

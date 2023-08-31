@@ -2,8 +2,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobminder/blocs/compnies/compnies_events.dart';
 import 'package:jobminder/blocs/compnies/compnies_states.dart';
-import 'package:jobminder/main.dart';
-import 'package:jobminder/utilites/db.dart';
 
 
 class CompaniesBloc extends Bloc<CompaniesEvent,CompaniesState>{
@@ -23,7 +21,6 @@ class CompaniesBloc extends Bloc<CompaniesEvent,CompaniesState>{
       ));
     } else {
       event.companies.add(event.newComp);
-      locator.get<FirebaseService>().addCompany(event.newComp.name);
       emitter(CompaniesSuccessAddState(event.companies));
     }
   }

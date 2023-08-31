@@ -2,8 +2,11 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:jobminder/blocs/compnies/compnies_bloc.dart';
+import 'package:jobminder/blocs/compnies/compnies_events.dart';
 import 'package:jobminder/blocs/questions/questions_bloc.dart';
 import 'package:jobminder/blocs/questions/questions_events.dart';
+import 'package:jobminder/modules/company.dart';
 import 'package:jobminder/modules/question.dart';
 
 class FirebaseService {
@@ -26,28 +29,40 @@ class FirebaseService {
     ref.push().set(CompanyName);
   }
 
+  void listenToCompanies(CompaniesBloc bloc) {
+    _database.ref().child('${_user?.uid}/Companies/').get().then((snapshot) {
+      if (snapshot.value == null) {
+        return;
+      }
+      List<Company> companies = [];
+      final comps = Map<String, Object>.from(snapshot.value as dynamic);
+      comps.forEach((key, value) {
+        Company c = Company(name: value as String);
+        bloc.add(AddcompanyEvent(c, companies));
+      });
+    });
+  }
+
   void addQuestion(Question q) {
     if (!isSignedIn()) {
       print("no user");
       return;
     }
     final ref = _database.ref().child('${_user?.uid}/Questions/');
-    ref.push().set({
-      "Question": q.question,
-      "Answer": q.answer
-    });
+    ref.push().set({"Question": q.question, "Answer": q.answer});
   }
 
   void listenToQuestions(QuestionsBloc bloc) {
-    _database.ref().child('${_user?.uid}/Questions/').onValue.listen((event) {
-      if(event.snapshot.value == null){
+    _database.ref().child('${_user?.uid}/Questions/').get().then((snapshot) {
+      if (snapshot.value == null) {
         return;
       }
       List<Question> questions = [];
-      final qs = Map<String, Object>.from( event.snapshot.value as dynamic);
+      final qs = Map<String, Object>.from(snapshot.value as dynamic);
       qs.forEach((key, value) {
-        Question q = Question.fromJson(Map<String, Object>.from(value as dynamic));
-        bloc.add(AddQuestionEvent(q, questions));        
+        Question q =
+            Question.fromJson(Map<String, Object>.from(value as dynamic));
+        bloc.add(AddQuestionEvent(q, questions));
       });
     });
   }
