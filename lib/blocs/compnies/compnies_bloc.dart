@@ -14,7 +14,6 @@ class CompaniesBloc extends Bloc<CompaniesEvent,CompaniesState>{
     Emitter<CompaniesState> emitter,
   ) async {
     emitter(const CompaniesInitialState());
-    // await Future.delayed(const Duration(seconds: 2));
     // ignore: unnecessary_null_comparison
     if (event.newComp == null) {
       emitter(const CompaniesErrorAddState(
