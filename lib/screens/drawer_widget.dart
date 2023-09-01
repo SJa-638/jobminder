@@ -15,33 +15,6 @@ backgroundColor:  Color.fromARGB(255, 210, 173, 255),
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0, 20, 20, 0),
-              child: Row(
-                children: [
-                  // Image.asset(
-                  //   'assets/images/logo.jpeg', // Replace with your logo image path
-                  //   height: 100.0,
-                  //   width: 100.0,
-                  // ),
-                  const SizedBox(
-                    height: 40.0,width: 10.0,
-                  ),
-                  //  const Text(
-                  //    'Menu',
-                  //    style: TextStyle(
-                  //    color: Colors.white,
-                  //    fontSize: 20.0,
-                  //     ),
-                  //     ),
-                      const SizedBox(
-                    height: 50.0,
-                  ),
-                ],
-              ),
-            ),
-          
-            
            ListTile(
             leading: const Icon(Icons.home,color: Color.fromARGB(255, 202, 28, 255),size: 35,),
             title: const Text('Home',style: TextStyle(fontSize: 24),),
@@ -81,8 +54,10 @@ backgroundColor:  Color.fromARGB(255, 210, 173, 255),
               // Handle Logout onTap functionality
             },
           ),
+          
         ],
       ),
+    
     );
   }
 }
