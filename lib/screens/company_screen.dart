@@ -44,7 +44,7 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
           IconButton(
             icon: const Icon(
               Icons.add,
-              color:Color.fromARGB(255, 202, 28, 255),
+              color:Colors.white,
             ),
             onPressed: () {
               showModalBottomSheet(
