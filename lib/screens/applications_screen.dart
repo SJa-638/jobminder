@@ -32,7 +32,10 @@ class _ApplicationsScreenState extends State<ApplicationsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 210, 173, 255),
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: Text(widget.company.name),
         leading: BackButton(onPressed: () {
           Navigator.push(
@@ -102,7 +105,7 @@ class _ApplicationsScreenState extends State<ApplicationsScreen> {
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text(app.postion),
+                              child: Text(app.postion,style: TextStyle(fontSize: 16,fontWeight:FontWeight.bold,),),
                             ),
                           ],
                         ),
@@ -197,6 +200,7 @@ class _ApplicationFormState extends State<ApplicationForm> {
               ),
               ElevatedButton(
                 child: const Icon(Icons.add),
+                 style: ElevatedButton.styleFrom(backgroundColor: Color.fromARGB(255, 202, 159, 255)),
                 onPressed: () {
                   // ApplicationState newState = ApplicationState(newStateStatus, dueDate, DateTime.now());
                   // widget.bloc.add(AddStateEvent(widget.application, newState));

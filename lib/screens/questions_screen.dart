@@ -30,7 +30,10 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 210, 173, 255),
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: const Text("Questions"),
         actions: <Widget>[
           IconButton(
@@ -63,22 +66,46 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
                 locator.get<FirebaseService>().listenToQuestions(bloc);
 
                 return ListView.builder(
-                    itemCount: state.props.length,
-                    itemBuilder: (context, index) {
-                      var q = state.props[index] as Question;
-                      return ExpandablePanel(
-                        header: Text(q.question),
-                        expanded: Column(
-                          children: [
-                            Text(q.answer),
-                            const SizedBox(
-                              height: 25,
-                            )
-                          ],
-                        ),
-                        collapsed: const Text(""),
-                      );
-                    });
+  itemCount: state.props.length,
+  itemBuilder: (context, index) {
+    var q = state.props[index] as Question;
+   
+ return Container(
+  color: Colors.white,
+  margin: EdgeInsets.symmetric(vertical: 8),
+  child: ExpandablePanel(
+    header: Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(5,10,0,0),
+      child: Text(
+        q.question,
+        style: const TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
+        ),
+      ),
+    ),
+    expanded: Container(
+      padding: const EdgeInsets.fromLTRB(8, 16, 8, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 8),
+          Text(
+            q.answer,
+            style: TextStyle(
+              color: Colors.black,
+            ),
+          ),
+          const SizedBox(height: 25),
+        ],
+      ),
+    ),
+    collapsed: const Text(""),
+  ),
+);
+  }
+                );
               } else if (state is QuestionsErrorAddState) {
                 return Text(state.errorMessage);
               } else {
@@ -134,6 +161,7 @@ class _QuestionsFormState extends State<QuestionsForm> {
               ),
               ElevatedButton(
                 child: const Icon(Icons.add),
+                 style: ElevatedButton.styleFrom(backgroundColor: Color.fromARGB(255, 202, 159, 255)),
                 onPressed: () {
                   if (q.text != "") {
                     final question =

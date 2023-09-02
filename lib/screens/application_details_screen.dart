@@ -30,7 +30,10 @@ class _ApplicationDetailsScreenState extends State<ApplicationDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+     backgroundColor: Color.fromARGB(255, 210, 173, 255),
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: Text(bloc.app.company.name),
         leading: BackButton(onPressed: () {
           Navigator.push(
@@ -44,58 +47,53 @@ class _ApplicationDetailsScreenState extends State<ApplicationDetailsScreen> {
           );
         }),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: Wrap(
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 20,
-          runSpacing: 20,
-          // height: MediaQuery.of(context).size.height * 0.5,
-          children: [
-            Row(
-              children: [
-                const Text("Position: "),
-                Text(bloc.app.postion),
-              ],
-            ),
-            BlocBuilder<ApplicationDetailsBloc, ApplicationDetailsState>(
-                builder: (context, state) {
-              locator
-                  .get<FirebaseService>()
-                  .listenToApplicationStates(bloc, bloc.app);
-              if (state is ApplicationDetailsSuccessAddDataState ||
-                  state is ApplicationDetailsInitialState) {
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.25,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text("States: "),
-                      Expanded(
+     body: Padding(
+  padding: EdgeInsets.all(25.0),
+  child: Wrap(
+    spacing: 20,
+    runSpacing: 20,
+    children: [
+      Row(
+        children: [
+          const Text("Position: "),
+          Text(bloc.app.postion),
+        ],
+      ),
+      BlocBuilder<ApplicationDetailsBloc, ApplicationDetailsState>(
+        builder: (context, state) {
+          locator.get<FirebaseService>().listenToApplicationStates(bloc, bloc.app);
+          if (state is ApplicationDetailsSuccessAddDataState ||
+              state is ApplicationDetailsInitialState) {
+            return SizedBox(
+              height: MediaQuery.of(context).size.height * 0.25,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text("States:"),
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Scrollbar(
                         child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Scrollbar(
-                            child: Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: ListView.builder(
-                                  itemCount: state.getApp.appStates.length,
-                                  itemBuilder: (context, index) {
-                                    Application myapp = state.getApp;
-                                    return Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(myapp
-                                            .appStates[index].jobStatuses.name),
-                                        Text(
-                                            ' Deadline: ${_formatDate(myapp.appStates[index].deadline)}'),
-                                      ],
-                                    );
-                                  }),
-                            ),
+                          padding: EdgeInsets.all(5.0),
+                          child: ListView.builder(
+                            itemCount: state.getApp.appStates.length,
+                            itemBuilder: (context, index) {
+                              Application myapp = state.getApp;
+                              return Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(myapp.appStates[index].jobStatuses.name),
+                                  Text(' Deadline: ${_formatDate(myapp.appStates[index].deadline)}'),
+                                ],
+                              );
+                            },
                           ),
                         ),
                       ),
+                    ),
+                  ),
+                
                       ElevatedButton(
                         onPressed: () {
                           showModalBottomSheet(
@@ -109,6 +107,7 @@ class _ApplicationDetailsScreenState extends State<ApplicationDetailsScreen> {
                           );
                         },
                         child: const Text("Add state"),
+                         style: ElevatedButton.styleFrom(backgroundColor: Color.fromARGB(255, 151, 66, 255)),
                       )
                     ],
                   ),
@@ -172,13 +171,17 @@ class _ApplicationStateFormState extends State<ApplicationStateForm> {
                 items: JobStatus.values.map((JobStatus classType) {
                   return DropdownMenuItem<JobStatus>(
                       value: classType, child: Text(classType.name));
+                      
                 }).toList()),
             ElevatedButton(
               onPressed: _selectDate,
               child: Text('Due Date: ${_formatDate(dueDate)}'),
+               style: ElevatedButton.styleFrom(backgroundColor: Color.fromARGB(255, 202, 159, 255)),
+               
             ),
             ElevatedButton(
               child: const Icon(Icons.add),
+               style: ElevatedButton.styleFrom(backgroundColor: Color.fromARGB(255, 202, 159, 255)),
               onPressed: () {
                 ApplicationState newState =
                     ApplicationState(newStateStatus, dueDate, DateTime.now());

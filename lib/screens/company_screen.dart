@@ -96,7 +96,7 @@ class _CompaniesScreenState extends State<CompaniesScreen> {
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: Text(c.name),
+                                child: Text(c.name,style: TextStyle(fontSize: 16,fontWeight:FontWeight.bold,),),
                               ),
                             ],
                           ),
@@ -151,7 +151,7 @@ class _CompaniesFormState extends State<CompaniesForm> {
               ),
               ElevatedButton(
                child: const Icon(Icons.add,),
-              style: ElevatedButton.styleFrom(primary: Color.fromARGB(255, 202, 159, 255)),
+              style: ElevatedButton.styleFrom(backgroundColor: Color.fromARGB(255, 202, 159, 255)),
               onPressed: () {
                   if (name.text != "") {
                     locator.get<FirebaseService>().addCompany(name.text);

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:jobminder/blocs/compnies/compnies_bloc.dart';
-import 'package:jobminder/modules/company.dart';
+import 'package:jobminder/blocs/questions/questions_bloc.dart';
 import 'package:jobminder/screens/company_screen.dart';
 import 'package:jobminder/screens/home_screen.dart';
+import 'package:jobminder/screens/login_screen.dart';
+import 'package:jobminder/screens/questions_screen.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({super.key});
@@ -11,7 +13,7 @@ class DrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-backgroundColor:  Color.fromARGB(255, 210, 173, 255),
+backgroundColor:  const Color.fromARGB(255, 210, 173, 255),
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
@@ -28,14 +30,14 @@ backgroundColor:  Color.fromARGB(255, 210, 173, 255),
             leading: const Icon(Icons.assignment,color: Color.fromARGB(255, 202, 28, 255),size: 35,),
             title: const Text('Interviews',style: TextStyle(fontSize: 24),),
             onTap: () {
-              List<Company> comps = [];
+            
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => 
-                      BlocProvider(
+                       BlocProvider(
                         create: (context) => CompaniesBloc(),
-                        child: CompaniesScreen(companies: comps),
+                        child: const CompaniesScreen(),
                       ),
                   ),
                 );
@@ -45,14 +47,29 @@ backgroundColor:  Color.fromARGB(255, 210, 173, 255),
             leading: const Icon(Icons.question_answer,color: Color.fromARGB(255, 202, 28, 255),size: 35,),
             title: const Text('Questions',style: TextStyle(fontSize: 24),),
             onTap: () {
-              // Handle Questions onTap functionality
+              
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => 
+                       BlocProvider(
+                        create: (context) => QuestionsBloc(),
+                        child: const QuestionsScreen(),
+                      ),
+                  ),
+                );
             },
           ),
           ListTile(
             leading: const Icon(Icons.exit_to_app,color: Color.fromARGB(255, 202, 28, 255),size: 35,),
             title: const Text('Logout',style: TextStyle(fontSize: 24),),
             onTap: () {
-              // Handle Logout onTap functionality
+              
+              Navigator.push(
+                   context,
+              MaterialPageRoute(builder: (context) => const LoginPage()),
+                  
+                );
             },
           ),
           

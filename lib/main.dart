@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
-import 'package:jobminder/screens/login_screen.dart';
+import 'package:jobminder/screens/splash_screen.dart';
 import 'package:jobminder/utilites/db.dart';
 
 
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
-      '/': (context) => const LoginPage(),
+      '/': (context) =>  SplashScreen(),
     },
     );
   }
